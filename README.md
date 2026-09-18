@@ -160,8 +160,13 @@ Its monthly balances stop at the same point. The two facts must agree.
 
 ### Collateral rules
 
-- **At most one collateral row per facility.** A property loan has one; a credit
-  card or overdraft has none.
+- **At most one collateral row per facility.** A term loan has one, because the
+  asset being financed secures itself. A credit card, overdraft or revolving line
+  has none. Contingent facilities vary: a guarantee line is often cash-backed, a
+  trade LC for a strong customer is often clean.
+- **The analysis never reasons about whether a facility type *should* have
+  security.** It reads whether a collateral row exists, and treats the facility as
+  unsecured if none does.
 - **A facility with no collateral row is unsecured** and takes the full unsecured
   LGD from the facility row.
 - **Expiry date matters.** It is blank for collateral that does not expire, such
@@ -240,7 +245,7 @@ EAD or LGD. It feeds the regulatory capital formula, which is out of scope here.
 |---|---|---|
 | Facility | 16 | customer × credit proposal × facility |
 | Utilisation | 66 | facility × month-end (Oct-2025 to Sep-2026) |
-| Collateral | 14 | facility × credit proposal, at most one |
+| Collateral | 9 | facility × credit proposal, at most one |
 
 Snapshot date: **30 September 2026**.
 
@@ -256,7 +261,8 @@ Snapshot date: **30 September 2026**.
 
 - **F101** climbs from about £6m to £9.5m over three months while its limit rises
   from £8m to £10m in the same month. The narrative must separate drawing more
-  from being given more room.
+  from being given more room. It is also **unsecured**, so it carries the full 45%
+  LGD and is the largest single loss severity in the book.
 - **F302** is utilised £2.1m against a £2.0m limit — an excess.
 - **F104** matures 15 Dec 2026 (76 days out) with renewal not started.
 - **F105** is 18 days past due and is the only **subordinated** facility, at 75%
@@ -271,6 +277,8 @@ Snapshot date: **30 September 2026**.
 - **COL005** is a standby LC expiring 31 Aug 2026 securing F103, which runs to
   2028 — an expired security. It is replaced on the current proposal by COL007,
   expiring 2027. Tests whether expiry dates are read or values just summed.
+- **Four facilities are unsecured** — F101, F104, F201 and F302 — and take the
+  full unsecured LGD. Absence of a collateral row is the only test applied.
 - **F104, F105 and F203** have a single month of history each. No trend exists.
 - **Contingent utilisation is issued, not drawn.** Treating an LC line like a cash
   loan overstates exposure fivefold.
@@ -320,6 +328,7 @@ version first.
 | Three tables, not one | Limits, balances and security have different lifecycles |
 | Limit on facility, not utilisation | Limits change per proposal, not per month |
 | One collateral per facility | Simplicity for the POC; multi-charge is real but adds nothing to the demo |
+| Revolving facilities unsecured | Keeps the secured/unsecured split obvious: term loans are purpose-based and secured, revolving lines are not |
 | No customer-level collateral | Debentures over a whole customer are real and were dropped to keep the joins simple |
 | Haircut on the collateral row | It is an attribute of the asset, and it makes the sensitivity test possible |
 | Proposal ID on utilisation | Denormalised on purpose, so balances match the right limit without date logic |
