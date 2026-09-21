@@ -143,12 +143,10 @@ Utilisation by customer — As at 30-Sep-2026  (total utilised ÷ total limit)
 
                      0%        50%      85%  100%
                      |---------|--------|----|
-Customer C           ████████████████████████  105%  🔴  over limit
-Customer A           ███████████████████████░   95%  🔴
-Customer B           ████████████████████░░░░   83%  🟠
-Customer G           ███████████████████░░░░░   78%  🟠
-Customer F           ██████████████████░░░░░░   74%  🟢
-Customer E           ████████████░░░░░░░░░░░░   50%  🟢
+Customer X           ████████████████████████  104%  🔴  over limit
+Customer Y           ████████████████████░░░░   84%  🟠
+Customer Z           █████████████████░░░░░░░   70%  🟢
+Customer W           ████████████░░░░░░░░░░░░   50%  🟢
 ```
 
 - Sort by latest utilisation, highest first.
@@ -158,34 +156,48 @@ Customer E           ████████████░░░░░░░�
 - Replace the date in the title with the as-at date.
 - After the percentage, the RAG emoji, then at most three words of reason where the
   status is not Green.
+- The example rows show the format only. Their names and values are not from the
+  data.
 
-**2b. How each customer got there** — the same measure tracked month by month over
-the last twelve month-ends, in the same customer order as 2a.
+**2b. How each customer got there** — the same measure tracked month by month,
+in the same customer order as 2a. Present this as a **markdown table, not a code
+block**, so the columns line up regardless of how the bar characters render.
 
-```
-Monthly utilisation by customer — 12 month-ends to 30-Sep-2026  (one bar = one month)
+Title the table with a bold line above it:
 
-                  Oct-25 ──────► Sep-26    start → now    12m change
-Customer C                 ▇▇█             n/a  → 105%    ▲  n/a
-Customer A        ▃▃▄▃▄▄▄▄▄▄▄█             60%  →  95%    ▲ +35pp
-Customer B        ▆▆▆▆▆▆▇▇▇▇▇▇             75%  →  83%    ▲  +8pp
-Customer G        ▄▄▄▄▄▄▄▄▄▄▄▇             50%  →  78%    ▲ +28pp
-Customer F        ▆▆▆▆▆▆▆▆▆▆▆▆             76%  →  74%    ▬  −2pp
-Customer E        ██·▇▇▆▆▅▅▄▄▄             83%  →  50%    ▼ −33pp
+**Monthly utilisation by customer — 12 month-ends to 30-Sep-2026 (one bar = one month, oldest left)**
 
-▁ 0-12%  ▂ 13-25%  ▃ 26-37%  ▄ 38-50%  ▅ 51-62%  ▆ 63-75%  ▇ 76-87%  █ 88%+   · no data
-```
+| Customer | Trend | From | Start | Now | 12m change |
+|---|---|---|---|---|---|
+| Customer X | `▄▄▄▄▄▅▅▅▅▆▆▇` | Oct-25 | 45% | 80% | ▲ +35pp |
+| Customer Y | `▆▆▆▆▆▆▆▆▆▆▆▆` | Oct-25 | 70% | 68% | ▬ −2pp |
+| Customer Z | `▅▆▆` | Jul-26 | 58% | 72% | ▲ n/a |
+| Customer W | `▇▇·▇▆▆▅▅▄▄` | Dec-25 | 83% | 50% | ▼ n/a |
 
-- Replace the dates in the title and header with the actual first and last month-ends.
-- One character per month, oldest left, latest right, using the bands in the
-  legend line.
-- `·` for a month with no data. A blank position where the customer did not yet
-  exist.
-- Where there is less than twelve months of history, print `n/a` for the start and
-  the change rather than computing them.
-- ▲ deteriorating, ▼ improving, ▬ flat within 5 percentage points.
+Rules for 2b:
 
-Under the two blocks, three to five bullets, one line each, naming what drove the
+- **Trend** is wrapped in backticks. One character per month from ▁▂▃▄▅▆▇█, oldest
+  left, latest right, using the bands in the legend. No spaces inside the trend.
+- The trend **starts at the customer's first month with data within the last twelve
+  months**. Do not pad the left with dots or blanks for months before the customer
+  existed. The **From** column states that first month instead.
+- Use `·` only for a genuinely missing month in the middle of a series, where the
+  customer existed before and after it.
+- **Start** is utilisation in the From month. **Now** is utilisation at the as-at
+  date.
+- **12m change** is Now minus the Oct-25 figure in percentage points. Where the
+  customer has less than twelve months of history, print the arrow followed by
+  `n/a`.
+- ▲ deteriorating, ▼ improving, ▬ flat within 5 percentage points, judged on Now
+  versus Start.
+- The example rows above show the format only. Their names and values are not from
+  the data.
+
+Directly under the table, print this legend line exactly:
+
+`▁ 0-12%  ▂ 13-25%  ▃ 26-37%  ▄ 38-50%  ▅ 51-62%  ▆ 63-75%  ▇ 76-87%  █ 88%+   · missing month`
+
+Under the table, three to five bullets, one line each, naming what drove the
 largest movements. Where a limit changed in the same period, split the movement
 into extra drawing and extra headroom granted.
 
@@ -267,6 +279,10 @@ coverage breaches.
 
 ## Version history
 
+- **v8** — 2b moved from a code block to a markdown table, so columns align however
+  the bar characters render. Trends start at the customer's first month with the
+  month stated in a From column, instead of padding with dots. Examples in 2a and
+  2b replaced with neutral placeholders so no example can be mistaken for data.
 - **v7** — opening instruction to respond in text only and produce all nine
   sections. Stops the tool returning a rendered utilisation chart instead of the
   report.
