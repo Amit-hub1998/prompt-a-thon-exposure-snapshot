@@ -5,13 +5,17 @@ everything between the lines below.
 
 ---
 
+**Respond in text and markdown only.** Do not generate images, do not render a
+chart, and do not write code to draw one. Every chart in this report is a text
+block specified below. Produce all nine sections in full, every time. A chart on its
+own is not an answer.
+
 You are a senior credit risk analyst preparing a weekly pack for risk partners.
 They will read the first page and nothing else. Lead with the answer. Put every
 calculation in an appendix at the end.
 
 Work only from the three attached tables. Read every row. Do not sample or
-truncate. In the appendix, state the row count you read from each table. Do not
-stop or re-read on account of the counts; just report them.
+truncate.
 
 ## Scope
 
@@ -38,7 +42,16 @@ customer_id, credit_proposal_id, facility_id, collateral_type, charge_type,
 charge_rank, currency, collateral_value, haircut_pct, valuation_date,
 expiry_date. A facility with no row here is unsecured.
 
-Snapshot date: **30 September 2026**.
+**As-at date:** the latest month_end_date in the utilisation table. Use it for
+days to maturity and for every "latest" figure. Never use today's date.
+
+Print the as-at date visibly, in the form **As at 30-Sep-2026 (latest month-end in
+the data)**, in each of these places:
+
+- the report title line at the very top
+- the title line of chart 2a and chart 2b
+- the heading of the maturity ladder, with days remaining measured from it
+- the heading of the impact summary
 
 ## Rules you must follow
 
@@ -54,7 +67,7 @@ contingent facilities utilised means issued, not cash lent. A committed revolver
 carries EAD even at zero utilisation. Where utilised exceeds limit, do not cap.
 
 **Recovery.** Count collateral only if expiry_date is blank or after
-maturity_date, and the collateral currency matches the facility currency. Then:
+maturity_date. Then:
 collateral_after_haircut = collateral_value x (1 − haircut_pct); covered =
 min(EAD, that); loss_severity = (EAD − covered) x unsecured_lgd_pct; LGD =
 loss_severity / EAD. No collateral row means unsecured, LGD = unsecured_lgd_pct.
@@ -78,21 +91,26 @@ design. EW06 uses collateral value before haircut.
 
 **RAG.** Red if any Red rule fires. Amber if only Amber rules fire. Green if none.
 
-**Guardrails.** Use only the values given; write "not provided" rather than
-estimating. No exchange rates are supplied, so never convert or add across
-currencies — report non-GBP facilities separately. Facility totals must sum to the
-customer totals you report. Report improvement as readily as deterioration. A
+**Guardrails.** All amounts are in USD. Use only the values given; write "not
+provided" rather than estimating. Facility totals must sum to the customer totals
+you report. Report improvement as readily as deterioration. A
 facility with fewer than two month-end rows has no trend; say so rather than
 inferring one. Do not dramatise.
 
 ## Output
 
-Exactly these sections, in this order. Sections 1 to 5 must fit one page.
+Exactly these sections, in this order and no others. Sections 1 to 6 are the
+report and should fit about one page. Sections 7 to 9 follow as supporting
+detail. Do not add a workings or calculation section.
+
+Open the report with one title line:
+
+**Limits & Exposure Snapshot — As at DD-Mon-YYYY (latest month-end in the data)**
 
 ### 1. Portfolio snapshot
 
 One headline line: customers, facilities, total limits, total EAD, total loss
-severity, as at the snapshot date.
+severity, as at the as-at date, stated explicitly.
 
 Then one row per customer, sorted by loss severity descending:
 
@@ -112,63 +130,64 @@ monitoring, N are operating normally.
 
 ### 2. Utilisation trend
 
-Two code blocks, in this order. Customer utilisation for a month is that
-customer's total utilised divided by total limit that month, using the limit in
-force in that month.
+**Utilisation** for a customer means that customer's total utilised divided by
+total limit, across all its facilities, using the limit in force in that month.
+Two code blocks follow, each opening with a one-line title that says exactly what
+is being plotted.
 
-**2a. Where every customer stands now.** One gauge bar per customer, sorted by
-latest utilisation descending. Twenty-four characters wide, so each character is
-roughly 4 percentage points. Fill with █ up to the latest utilisation and pad the
-rest with ░. Cap the bar at 24 characters but print the true percentage, which may
-exceed 100%.
+**2a. Where each customer stands now** — a comparison across customers at a single
+point in time. No time axis.
 
 ```
+Utilisation by customer — As at 30-Sep-2026  (total utilised ÷ total limit)
+
                      0%        50%      85%  100%
                      |---------|--------|----|
-C003 Meridian        ████████████████████████  105%  🔴  over limit
-C001 Northbridge     ███████████████████████░   95%  🔴
-C002 Calder          ████████████████████░░░░   83%  🟠
-C007 Pelham          ███████████████████░░░░░   78%  🟠
-C006 Brackwell       ██████████████████░░░░░░   74%  🟢
-C005 Halden          ████████████░░░░░░░░░░░░   50%  🟢
+Customer C           ████████████████████████  105%  🔴  over limit
+Customer A           ███████████████████████░   95%  🔴
+Customer B           ████████████████████░░░░   83%  🟠
+Customer G           ███████████████████░░░░░   78%  🟠
+Customer F           ██████████████████░░░░░░   74%  🟢
+Customer E           ████████████░░░░░░░░░░░░   50%  🟢
 ```
 
-Align the header ticks so the 50%, 85% and 100% marks sit above the correct
-character positions. After the bar, print the true percentage, the RAG emoji, and
-at most three words naming the reason where the status is not Green.
+- Sort by latest utilisation, highest first.
+- Twenty-four characters wide, so each character is about 4 percentage points. Fill
+  with █ up to the latest utilisation, pad with ░, cap at 24 characters but print
+  the true percentage, which may exceed 100%.
+- Replace the date in the title with the as-at date.
+- After the percentage, the RAG emoji, then at most three words of reason where the
+  status is not Green.
 
-**2b. How each customer got there.** One sparkline per customer across the last
-twelve month-ends, Oct-2025 to Sep-2026, in the same order as 2a.
-
-```
-C003 Meridian                 ▇▇█  n/a       ▲ +15pp
-C001 Northbridge  ▃▃▄▃▄▄▄▄▄▄▄█   60% → 95%   ▲ +35pp
-C002 Calder       ▆▆▆▆▆▆▇▇▇▇▇▇   75% → 83%   ▲ +8pp
-C007 Pelham       ▄▄▄▄▄▄▄▄▄▄▄▇   50% → 78%   ▲ +28pp
-C006 Brackwell    ▆▆▆▆▆▆▆▆▆▆▆▆   76% → 74%   ▬ −2pp
-C005 Halden       ██·▇▇▆▆▅▅▄▄▄   83% → 50%   ▼ −33pp
-```
-
-Rules for 2b:
-
-- One character per month from ▁▂▃▄▅▆▇█, in bands of roughly 12 percentage points,
-  so ▁ is 0–12% and █ is 88% or above.
-- Use `·` for a month with no data, and leave the position blank where the
-  customer did not exist yet.
-- After the bars: first and last utilisation, then the direction arrow and the
-  12-month change in percentage points. Where there is less than 12 months of
-  history, print `n/a` for the start figure rather than computing one.
-- ▲ deteriorating, ▼ improving, ▬ flat within 5 percentage points.
-
-Print this one-line legend under 2b, and nothing else:
+**2b. How each customer got there** — the same measure tracked month by month over
+the last twelve month-ends, in the same customer order as 2a.
 
 ```
+Monthly utilisation by customer — 12 month-ends to 30-Sep-2026  (one bar = one month)
+
+                  Oct-25 ──────► Sep-26    start → now    12m change
+Customer C                 ▇▇█             n/a  → 105%    ▲  n/a
+Customer A        ▃▃▄▃▄▄▄▄▄▄▄█             60%  →  95%    ▲ +35pp
+Customer B        ▆▆▆▆▆▆▇▇▇▇▇▇             75%  →  83%    ▲  +8pp
+Customer G        ▄▄▄▄▄▄▄▄▄▄▄▇             50%  →  78%    ▲ +28pp
+Customer F        ▆▆▆▆▆▆▆▆▆▆▆▆             76%  →  74%    ▬  −2pp
+Customer E        ██·▇▇▆▆▅▅▄▄▄             83%  →  50%    ▼ −33pp
+
 ▁ 0-12%  ▂ 13-25%  ▃ 26-37%  ▄ 38-50%  ▅ 51-62%  ▆ 63-75%  ▇ 76-87%  █ 88%+   · no data
 ```
 
-Then three to five bullets, one line each, naming what drove the largest
-movements. Where a limit changed in the same period, split the movement into extra
-drawing and extra headroom granted.
+- Replace the dates in the title and header with the actual first and last month-ends.
+- One character per month, oldest left, latest right, using the bands in the
+  legend line.
+- `·` for a month with no data. A blank position where the customer did not yet
+  exist.
+- Where there is less than twelve months of history, print `n/a` for the start and
+  the change rather than computing them.
+- ▲ deteriorating, ▼ improving, ▬ flat within 5 percentage points.
+
+Under the two blocks, three to five bullets, one line each, naming what drove the
+largest movements. Where a limit changed in the same period, split the movement
+into extra drawing and extra headroom granted.
 
 ### 3. Watchlist
 
@@ -186,7 +205,7 @@ No paragraphs in this section.
 
 One line per Green customer. Name it, its EAD, and why it is clean. No detail.
 
-### 5. Maturity ladder
+### 5. Maturity ladder — As at DD-Mon-YYYY
 
 | Bucket | Utilised | Facilities | Renewal |
 
@@ -195,7 +214,7 @@ their maturity date and days remaining, and show renewal status with a RAG marke
 Give any facility already past its maturity date with a balance outstanding its own
 **Past maturity** row at the bottom, marked ⚠️.
 
-### 6. So what
+### 6. Impact summary — refinancing, liquidity and recovery (As at DD-Mon-YYYY)
 
 At most 150 words. Open with one sentence stating the single most important thing
 in the pack. Then four bullets, one line each:
@@ -210,48 +229,56 @@ the two disagree.
 
 ### 7. Data quality issues
 
-A table, never prose, and never allowed to silently change a number:
+A table, never prose. These are reported, never allowed to silently change a number.
 
 | Issue | Where | What it affects |
 
-Cover at least: balances after maturity, missing months in a utilisation series,
-collateral with no valuation date, valuations more than 24 months before the
-snapshot date, non-GBP facilities, and any other inconsistency you find.
+Cover at least: balances after a facility's maturity date, missing months in a
+utilisation series, collateral with no valuation date, valuations more than 24
+months before the as-at date, and any other inconsistency between the tables.
 
-### 8. Appendix — workings
+### 8. Flag register
 
-Everything an auditor would need, and nothing a risk partner reads:
+A table of every flag that fired: rule ID, customer, facility, triggering values,
+one-line rationale. Red before Amber.
 
-- Rows read from each table.
-- Current view resolution: the proposal chosen per customer, and which were
-  excluded and why.
-- Facility table: limit, utilised, utilisation %, EAD with the CCF applied,
-  collateral after haircut, covered, uncovered, LGD, loss severity, flags.
-- Every flag with rule ID, facility, triggering values, one-line rationale.
-- Assumptions and exclusions, including that PD and expected loss are out of
-  scope.
+### 9. Assumptions and exclusions
+
+Bullets, one line each. Include that PD, expected loss and regulatory capital are
+out of scope, and list any value you had to treat as not provided.
 
 ---
 
 ## How to run it
 
-1. Attach the three CSVs. If only Excel is accepted, attach
-   `credit_exposure_inputs_raw.xlsx`, whose sheets carry the same names.
+1. Attach `facility.csv`, `utilisation.csv` and `collateral.csv`. If only Excel is
+   accepted, attach `credit_exposure_inputs_raw.xlsx`, whose sheets carry the same
+   names.
 2. Send the prompt above.
 3. If the output stops early, ask for the remaining sections by number.
-4. Sanity-check the row counts reported in the appendix: facility 36,
-   utilisation 218, collateral 22.
 
 ## What to check in the output
 
-The traps table in the main README. Above all: C004's Pending proposal must be
-excluded, F402 at zero utilisation must still carry EAD, F403 in EUR must be kept
-separate, F401 must appear in the Past maturity row, F501's missing February must
-be reported rather than read as a fall to zero, and the six unsecured facilities
-must be called unsecured rather than coverage breaches.
+The traps table in the main README. Above all: Customer D's Pending proposal must be
+excluded, F402 at zero utilisation must still carry EAD, F401 must appear in the Past
+maturity row of the ladder, Customer G must raise a spike flag but not a high
+utilisation flag, and unsecured facilities must be called unsecured rather than
+coverage breaches.
 
 ## Version history
 
+- **v7** — opening instruction to respond in text only and produce all nine
+  sections. Stops the tool returning a rendered utilisation chart instead of the
+  report.
+- **v6** — as-at date printed in the title, both chart titles, the maturity ladder
+  and the impact summary. "So what" renamed to Impact summary. Data quality
+  section restored; flag register and assumptions kept as their own sections;
+  workings still excluded.
+- **v5** — as-at date derived from the latest month-end instead of hard-coded.
+  Single currency (USD). Customers anonymised to Customer A–G. Report cut to six
+  sections plus an appendix of flag register and assumptions only; data quality,
+  current-view resolution and the workings table removed. Each trend block now opens
+  with a title stating what is plotted and over what period.
 - **v4** — trend split into two blocks: gauge bars showing where every customer
   stands now, then sparklines showing how they got there. The month-axis header
   was dropped; it carried little information and cluttered the block.

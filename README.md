@@ -22,6 +22,9 @@ exposure snapshot, a trend view, rule-based early warning flags, and a plain-Eng
 
 **In scope:** EAD, collateral coverage, LGD, loss severity, maturity, early warning flags.
 
+All amounts are in USD. Customer names are placeholders (Customer A to G) so that
+nothing in the dataset reads as a real client.
+
 **Out of scope:** internal ratings, PD, expected loss, regulatory capital and RWA.
 
 This matters. Expected loss needs all three parameters:
@@ -61,7 +64,7 @@ Plain-money definitions for the terms used throughout.
 | **EAD** | Exposure at default. The pounds expected to be owed at the moment of failure. |
 | **Collateral** | The asset pledged: property, cash, receivables, vehicles. |
 | **Charge (fixed / floating)** | The legal claim over that asset. Fixed is locked to a named asset and recovers well. Floating sits over whatever exists at the time and recovers badly. |
-| **Haircut** | The discount applied to a valuation before it counts. £10m of property at a 35% haircut counts as £6.5m. |
+| **Haircut** | The discount applied to a valuation before it counts. USD 10m of property at a 35% haircut counts as USD 6.5m. |
 | **Coverage** | Collateral value divided by utilised amount. |
 | **Unsecured LGD** | The loss rate on the part of the exposure collateral does not cover. Around 45% for senior unsecured corporate lending. |
 | **Seniority** | Who gets paid first from recoveries. Senior ranks ahead of subordinated, so subordinated LGD is much higher. |
@@ -138,7 +141,7 @@ gets wrong.
 
 ```mermaid
 timeline
-    title C001 Northbridge — three proposals
+    title C001 Customer A — three proposals
     20240715 : F101 revolving : F102 term loan
     20250812 : F101 : F102 : F103 LC line added
     20260904 : F101 limit raised to 10m : F103 : F104 overdraft added : F105 asset finance added
@@ -252,7 +255,7 @@ EAD or LGD. It feeds the regulatory capital formula, which is out of scope here.
 | utilisation | 218 | facility x month-end |
 | collateral | 22 | facility x credit proposal, at most one |
 
-Snapshot date: **30 September 2026**. Twenty-four month-ends, Oct-2024 to Sep-2026.
+Twenty-four month-ends, Oct-2024 to Sep-2026. The as-at date is not fixed anywhere; the prompt takes it from the latest month-end in the utilisation table. All amounts are in USD. Customer names are placeholders.
 Seven customers, fourteen credit proposals, nineteen facilities.
 
 Every approved proposal has utilisation rows for the months it was in force. The
@@ -262,47 +265,46 @@ one Pending proposal has none, by design: balances belong to approved limits.
 
 | Customer | Proposals | Expected RAG | Purpose |
 |---|---|---|---|
-| **C001 Northbridge Manufacturing** | 3 | Red | RCF at 95% and unsecured, arrears, expired-then-replaced LC security, an overdraft maturing in 76 days |
-| **C002 Calder Retail** | 2 | Amber | Clean book, one guarantee line maturing in 81 days with renewal in progress |
-| **C003 Meridian Logistics** | 1 | Red | LC line over its limit. Single proposal, so no trend exists |
-| **C004 Tarvin Foods** | 3 (one Pending) | Red | Arrears at 90 days, a facility past maturity still drawn, a zero-utilisation committed line, a EUR facility |
-| **C005 Halden Marine** | 1 | Green | Deleveraging, fully covered, but a missing month and a 2019 valuation |
-| **C006 Brackwell Utilities** | 2 | Green | Stable and well covered. The control customer |
-| **C007 Pelham Textiles** | 2 | Amber | A 28pp utilisation spike that stays below 85%, plus a collateral shortfall |
+| **C001 Customer A** | 3 | Red | RCF at 95% and unsecured, arrears, expired-then-replaced LC security, an overdraft maturing in 76 days |
+| **C002 Customer B** | 2 | Amber | Clean book, one guarantee line maturing in 81 days with renewal in progress |
+| **C003 Customer C** | 1 | Red | LC line over its limit. Single proposal, so no trend exists |
+| **C004 Customer D** | 3 (one Pending) | Red | Arrears at 90 days, a facility past maturity still drawn, a zero-utilisation committed line |
+| **C005 Customer E** | 1 | Green | Deleveraging, fully covered, but a missing month and a 2019 valuation |
+| **C006 Customer F** | 2 | Green | Stable and well covered. The control customer |
+| **C007 Customer G** | 2 | Amber | A 28pp utilisation spike that stays below 85%, plus a collateral shortfall |
 
 Three Red, two Amber, two Green.
 
 ### Planted signals
 
-- **F101** climbs to 95% in the same month its limit rises from GBP 8m to GBP 10m.
-  Unsecured, so it carries the largest loss severity in the book at GBP 4.4m.
-- **F302** is utilised GBP 2.1m against a GBP 2.0m limit, an excess.
+- **F101** climbs to 95% in the same month its limit rises from USD 8m to USD 10m.
+  Unsecured, so it carries the largest loss severity in the book at USD 4.4m.
+- **F302** is utilised USD 2.1m against a USD 2.0m limit, an excess.
 - **F404** shows arrears escalating 30, 60 then 90 days across three months.
 - **F701** jumps 28 percentage points but ends at 78%, below the 85% threshold. It
   must raise a spike flag and **not** a high-utilisation flag.
-- **F501** is deleveraging from GBP 5.0m to GBP 3.0m. Improvement must be reported
+- **F501** is deleveraging from USD 5.0m to USD 3.0m. Improvement must be reported
   as readily as deterioration.
-- **F202** is flat at GBP 2.4m for eighteen months. Any trend reported there is a
+- **F202** is flat at USD 2.4m for eighteen months. Any trend reported there is a
   false positive.
 
 ### Traps and edge cases
 
 | # | What is in the data | How a weak prompt fails |
 |---|---|---|
-| 1 | **C004 proposal 20260925 is Pending** and raises F402 from GBP 5m to GBP 8m | Takes the latest proposal and reports a limit never granted |
-| 2 | **F402 is fully undrawn**, zero every month | Reports no exposure. A committed line at 50% CCF carries GBP 2.5m of EAD |
-| 3 | **F403 is in EUR** with no FX rate anywhere | Silently adds EUR to GBP instead of reporting it separately |
-| 4 | **F401 matured 31 Aug 2026 and still carries GBP 800k** | Reports it as live rather than flagging it |
-| 5 | **F501 has no Feb-2026 row** | Reads the gap as a fall to zero |
-| 6 | **F501 collateral was valued Jun-2019** | Takes GBP 8m at face value seven years on |
-| 7 | **F404 collateral has no valuation date** | Uses the value without noticing it is unsupported |
-| 8 | **F103's old security expired 31 Aug 2026**, replaced on the current proposal by one expiring 2027, still before the 2028 maturity | Counts expired security, or misses the remaining expiry gap |
-| 9 | **F102 disappears** from the third proposal and its balances stop | Reports missing data rather than a matured facility |
-| 10 | **Seven facilities have no collateral row** | Treats absence as zero coverage and fires a breach |
-| 11 | **Contingent utilisation is issued, not drawn** | Treats an LC line like a cash loan, overstating exposure fivefold |
-| 12 | **F104, F105, F203, F403 have one month each** | Invents a trend where none exists |
-| 13 | **F701 spikes 28pp but ends at 78%** | Fires a high-utilisation flag on a facility below the threshold |
-| 14 | **F601 sits at 81% and F203 at 90%**, both term loans | Fires utilisation flags on term loans, which amortise by design |
+| 1 | **C004 proposal 20260925 is Pending** and raises F402 from USD 5m to USD 8m | Takes the latest proposal and reports a limit never granted |
+| 2 | **F402 is fully undrawn**, zero every month | Reports no exposure. A committed line at 50% CCF carries USD 2.5m of EAD |
+| 3 | **F401 matured 31 Aug 2026 and still carries USD 800k** | Reports it as live rather than flagging it |
+| 4 | **F501 has no Feb-2026 row** | Reads the gap as a fall to zero |
+| 5 | **F501 collateral was valued Jun-2019** | Takes USD 8m at face value seven years on |
+| 6 | **F404 collateral has no valuation date** | Uses the value without noticing it is unsupported |
+| 7 | **F103's old security expired 31 Aug 2026**, replaced on the current proposal by one expiring 2027, still before the 2028 maturity | Counts expired security, or misses the remaining expiry gap |
+| 8 | **F102 disappears** from the third proposal and its balances stop | Reports missing data rather than a matured facility |
+| 9 | **Seven facilities have no collateral row** | Treats absence as zero coverage and fires a breach |
+| 10 | **Contingent utilisation is issued, not drawn** | Treats an LC line like a cash loan, overstating exposure fivefold |
+| 11 | **F104, F105, F203, F403 have one month each** | Invents a trend where none exists |
+| 12 | **F701 spikes 28pp but ends at 78%** | Fires a high-utilisation flag on a facility below the threshold |
+| 13 | **F601 sits at 81% and F203 at 90%**, both term loans | Fires utilisation flags on term loans, which amortise by design |
 
 ## 6. Repository layout
 
@@ -324,6 +326,8 @@ Three Red, two Amber, two Green.
 - [ ] **Data generation prompt** — the prompt that produces the three tables, so
       the dataset is reproducible rather than handed over as a file.
 - [x] **Main analysis prompt** — `prompts/02_exposure_snapshot.md`, draft v1.
+- [x] **Submission content** — `docs/submission_content.md`, slide-ready text for all five slides.
+- [ ] **Grader prompt** — the AI Assist step that scores each output against the answer key.
 - [ ] **Answer key** — expected EAD, coverage, LGD, loss severity and flag list
       per facility, so outputs can be scored rather than admired.
 - [ ] **Evaluation** — run the prompt several times, score against the answer key

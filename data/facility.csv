@@ -1,37 +1,37 @@
 customer_id,customer_name,sector,credit_proposal_id,proposal_date,proposal_status,facility_id,product,facility_type,committed,currency,limit_amount,ccf_pct,seniority,unsecured_lgd_pct,facility_start_date,maturity_date,renewal_status
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20240715,2024-07-15,Approved,F101,Revolving credit facility,Revolving,Yes,GBP,8000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20240715,2024-07-15,Approved,F102,Term loan (property),Term,Yes,GBP,15000000,0.0,Senior,0.45,2024-08-01,2026-07-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20250812,2025-08-12,Approved,F101,Revolving credit facility,Revolving,Yes,GBP,8000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20250812,2025-08-12,Approved,F102,Term loan (property),Term,Yes,GBP,15000000,0.0,Senior,0.45,2024-08-01,2026-07-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20250812,2025-08-12,Approved,F103,Trade finance (LC line),Contingent,Yes,GBP,5000000,0.2,Senior,0.45,2025-09-01,2028-08-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20260904,2026-09-04,Approved,F101,Revolving credit facility,Revolving,Yes,GBP,10000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20260904,2026-09-04,Approved,F103,Trade finance (LC line),Contingent,Yes,GBP,5000000,0.2,Senior,0.45,2025-09-01,2028-08-31,Not due
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20260904,2026-09-04,Approved,F104,Overdraft,Revolving,No,GBP,2000000,0.0,Senior,0.45,2026-09-10,2026-12-15,Not started
-C001,Northbridge Manufacturing Ltd,Industrial manufacturing,20260904,2026-09-04,Approved,F105,Asset finance,Term,Yes,GBP,1500000,0.0,Subordinated,0.75,2026-09-10,2029-09-09,Not due
-C002,Calder Retail Group plc,Retail,20250310,2025-03-10,Approved,F201,Revolving credit facility,Revolving,Yes,GBP,4000000,0.5,Senior,0.45,2025-04-01,2028-03-31,Not due
-C002,Calder Retail Group plc,Retail,20250310,2025-03-10,Approved,F202,Guarantee line,Contingent,Yes,GBP,3000000,1.0,Senior,0.45,2025-04-01,2026-12-20,In progress
-C002,Calder Retail Group plc,Retail,20260815,2026-08-15,Approved,F201,Revolving credit facility,Revolving,Yes,GBP,4000000,0.5,Senior,0.45,2025-04-01,2028-03-31,Not due
-C002,Calder Retail Group plc,Retail,20260815,2026-08-15,Approved,F202,Guarantee line,Contingent,Yes,GBP,3000000,1.0,Senior,0.45,2025-04-01,2026-12-20,In progress
-C002,Calder Retail Group plc,Retail,20260815,2026-08-15,Approved,F203,Term loan (fit-out),Term,Yes,GBP,6000000,0.0,Senior,0.45,2026-09-01,2031-08-31,Not due
-C003,Meridian Logistics BV,Transport and logistics,20260620,2026-06-20,Approved,F301,Term loan (property),Term,Yes,GBP,6000000,0.0,Senior,0.45,2026-07-01,2031-06-30,Not due
-C003,Meridian Logistics BV,Transport and logistics,20260620,2026-06-20,Approved,F302,Trade finance (LC line),Contingent,Yes,GBP,2000000,0.2,Senior,0.45,2026-07-01,2026-11-30,Not started
-C004,Tarvin Foods Ltd,Food production,20250905,2025-09-05,Approved,F401,Term loan (equipment),Term,Yes,GBP,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
-C004,Tarvin Foods Ltd,Food production,20250905,2025-09-05,Approved,F402,Revolving credit facility,Revolving,Yes,GBP,5000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
-C004,Tarvin Foods Ltd,Food production,20250905,2025-09-05,Approved,F404,Term loan (vehicle),Term,Yes,GBP,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
-C004,Tarvin Foods Ltd,Food production,20260910,2026-09-10,Approved,F401,Term loan (equipment),Term,Yes,GBP,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
-C004,Tarvin Foods Ltd,Food production,20260910,2026-09-10,Approved,F402,Revolving credit facility,Revolving,Yes,GBP,5000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
-C004,Tarvin Foods Ltd,Food production,20260910,2026-09-10,Approved,F403,Term loan (plant),Term,Yes,EUR,4000000,0.0,Senior,0.45,2026-09-15,2031-09-14,Not due
-C004,Tarvin Foods Ltd,Food production,20260910,2026-09-10,Approved,F404,Term loan (vehicle),Term,Yes,GBP,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
-C004,Tarvin Foods Ltd,Food production,20260925,2026-09-25,Pending,F401,Term loan (equipment),Term,Yes,GBP,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
-C004,Tarvin Foods Ltd,Food production,20260925,2026-09-25,Pending,F402,Revolving credit facility,Revolving,Yes,GBP,8000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
-C004,Tarvin Foods Ltd,Food production,20260925,2026-09-25,Pending,F403,Term loan (plant),Term,Yes,EUR,4000000,0.0,Senior,0.45,2026-09-15,2031-09-14,Not due
-C004,Tarvin Foods Ltd,Food production,20260925,2026-09-25,Pending,F404,Term loan (vehicle),Term,Yes,GBP,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
-C005,Halden Marine Ltd,Marine services,20251110,2025-11-10,Approved,F501,Term loan (property),Term,Yes,GBP,6000000,0.0,Senior,0.45,2025-12-01,2030-11-30,Not due
-C006,Brackwell Utilities Ltd,Utilities,20250220,2025-02-20,Approved,F601,Term loan (infrastructure),Term,Yes,GBP,10000000,0.0,Senior,0.45,2025-03-01,2032-02-29,Not due
-C006,Brackwell Utilities Ltd,Utilities,20250220,2025-02-20,Approved,F602,Revolving credit facility,Revolving,Yes,GBP,3000000,0.5,Senior,0.45,2025-03-01,2029-02-28,Not due
-C006,Brackwell Utilities Ltd,Utilities,20260710,2026-07-10,Approved,F601,Term loan (infrastructure),Term,Yes,GBP,10000000,0.0,Senior,0.45,2025-03-01,2032-02-29,Not due
-C006,Brackwell Utilities Ltd,Utilities,20260710,2026-07-10,Approved,F602,Revolving credit facility,Revolving,Yes,GBP,3000000,0.5,Senior,0.45,2025-03-01,2029-02-28,Not due
-C007,Pelham Textiles Ltd,Textiles,20250620,2025-06-20,Approved,F701,Revolving credit facility,Revolving,Yes,GBP,5000000,0.5,Senior,0.45,2025-07-01,2029-06-30,Not due
-C007,Pelham Textiles Ltd,Textiles,20250620,2025-06-20,Approved,F702,Term loan (machinery),Term,Yes,GBP,2000000,0.0,Senior,0.45,2025-07-01,2030-06-30,Not due
-C007,Pelham Textiles Ltd,Textiles,20260820,2026-08-20,Approved,F701,Revolving credit facility,Revolving,Yes,GBP,5000000,0.5,Senior,0.45,2025-07-01,2029-06-30,Not due
-C007,Pelham Textiles Ltd,Textiles,20260820,2026-08-20,Approved,F702,Term loan (machinery),Term,Yes,GBP,2000000,0.0,Senior,0.45,2025-07-01,2030-06-30,Not due
+C001,Customer A,Industrial manufacturing,20240715,2024-07-15,Approved,F101,Revolving credit facility,Revolving,Yes,USD,8000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
+C001,Customer A,Industrial manufacturing,20240715,2024-07-15,Approved,F102,Term loan (property),Term,Yes,USD,15000000,0.0,Senior,0.45,2024-08-01,2026-07-31,Not due
+C001,Customer A,Industrial manufacturing,20250812,2025-08-12,Approved,F101,Revolving credit facility,Revolving,Yes,USD,8000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
+C001,Customer A,Industrial manufacturing,20250812,2025-08-12,Approved,F102,Term loan (property),Term,Yes,USD,15000000,0.0,Senior,0.45,2024-08-01,2026-07-31,Not due
+C001,Customer A,Industrial manufacturing,20250812,2025-08-12,Approved,F103,Trade finance (LC line),Contingent,Yes,USD,5000000,0.2,Senior,0.45,2025-09-01,2028-08-31,Not due
+C001,Customer A,Industrial manufacturing,20260904,2026-09-04,Approved,F101,Revolving credit facility,Revolving,Yes,USD,10000000,0.5,Senior,0.45,2024-08-01,2027-07-31,Not due
+C001,Customer A,Industrial manufacturing,20260904,2026-09-04,Approved,F103,Trade finance (LC line),Contingent,Yes,USD,5000000,0.2,Senior,0.45,2025-09-01,2028-08-31,Not due
+C001,Customer A,Industrial manufacturing,20260904,2026-09-04,Approved,F104,Overdraft,Revolving,No,USD,2000000,0.0,Senior,0.45,2026-09-10,2026-12-15,Not started
+C001,Customer A,Industrial manufacturing,20260904,2026-09-04,Approved,F105,Asset finance,Term,Yes,USD,1500000,0.0,Subordinated,0.75,2026-09-10,2029-09-09,Not due
+C002,Customer B,Retail,20250310,2025-03-10,Approved,F201,Revolving credit facility,Revolving,Yes,USD,4000000,0.5,Senior,0.45,2025-04-01,2028-03-31,Not due
+C002,Customer B,Retail,20250310,2025-03-10,Approved,F202,Guarantee line,Contingent,Yes,USD,3000000,1.0,Senior,0.45,2025-04-01,2026-12-20,In progress
+C002,Customer B,Retail,20260815,2026-08-15,Approved,F201,Revolving credit facility,Revolving,Yes,USD,4000000,0.5,Senior,0.45,2025-04-01,2028-03-31,Not due
+C002,Customer B,Retail,20260815,2026-08-15,Approved,F202,Guarantee line,Contingent,Yes,USD,3000000,1.0,Senior,0.45,2025-04-01,2026-12-20,In progress
+C002,Customer B,Retail,20260815,2026-08-15,Approved,F203,Term loan (fit-out),Term,Yes,USD,6000000,0.0,Senior,0.45,2026-09-01,2031-08-31,Not due
+C003,Customer C,Transport and logistics,20260620,2026-06-20,Approved,F301,Term loan (property),Term,Yes,USD,6000000,0.0,Senior,0.45,2026-07-01,2031-06-30,Not due
+C003,Customer C,Transport and logistics,20260620,2026-06-20,Approved,F302,Trade finance (LC line),Contingent,Yes,USD,2000000,0.2,Senior,0.45,2026-07-01,2026-11-30,Not started
+C004,Customer D,Food production,20250905,2025-09-05,Approved,F401,Term loan (equipment),Term,Yes,USD,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
+C004,Customer D,Food production,20250905,2025-09-05,Approved,F402,Revolving credit facility,Revolving,Yes,USD,5000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
+C004,Customer D,Food production,20250905,2025-09-05,Approved,F404,Term loan (vehicle),Term,Yes,USD,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
+C004,Customer D,Food production,20260910,2026-09-10,Approved,F401,Term loan (equipment),Term,Yes,USD,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
+C004,Customer D,Food production,20260910,2026-09-10,Approved,F402,Revolving credit facility,Revolving,Yes,USD,5000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
+C004,Customer D,Food production,20260910,2026-09-10,Approved,F403,Term loan (plant),Term,Yes,USD,4000000,0.0,Senior,0.45,2026-09-15,2031-09-14,Not due
+C004,Customer D,Food production,20260910,2026-09-10,Approved,F404,Term loan (vehicle),Term,Yes,USD,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
+C004,Customer D,Food production,20260925,2026-09-25,Pending,F401,Term loan (equipment),Term,Yes,USD,3000000,0.0,Senior,0.45,2025-10-01,2026-08-31,Not due
+C004,Customer D,Food production,20260925,2026-09-25,Pending,F402,Revolving credit facility,Revolving,Yes,USD,8000000,0.5,Senior,0.45,2025-10-01,2028-09-30,Not due
+C004,Customer D,Food production,20260925,2026-09-25,Pending,F403,Term loan (plant),Term,Yes,USD,4000000,0.0,Senior,0.45,2026-09-15,2031-09-14,Not due
+C004,Customer D,Food production,20260925,2026-09-25,Pending,F404,Term loan (vehicle),Term,Yes,USD,1200000,0.0,Senior,0.45,2025-10-01,2029-09-30,Not due
+C005,Customer E,Marine services,20251110,2025-11-10,Approved,F501,Term loan (property),Term,Yes,USD,6000000,0.0,Senior,0.45,2025-12-01,2030-11-30,Not due
+C006,Customer F,Utilities,20250220,2025-02-20,Approved,F601,Term loan (infrastructure),Term,Yes,USD,10000000,0.0,Senior,0.45,2025-03-01,2032-02-29,Not due
+C006,Customer F,Utilities,20250220,2025-02-20,Approved,F602,Revolving credit facility,Revolving,Yes,USD,3000000,0.5,Senior,0.45,2025-03-01,2029-02-28,Not due
+C006,Customer F,Utilities,20260710,2026-07-10,Approved,F601,Term loan (infrastructure),Term,Yes,USD,10000000,0.0,Senior,0.45,2025-03-01,2032-02-29,Not due
+C006,Customer F,Utilities,20260710,2026-07-10,Approved,F602,Revolving credit facility,Revolving,Yes,USD,3000000,0.5,Senior,0.45,2025-03-01,2029-02-28,Not due
+C007,Customer G,Textiles,20250620,2025-06-20,Approved,F701,Revolving credit facility,Revolving,Yes,USD,5000000,0.5,Senior,0.45,2025-07-01,2029-06-30,Not due
+C007,Customer G,Textiles,20250620,2025-06-20,Approved,F702,Term loan (machinery),Term,Yes,USD,2000000,0.0,Senior,0.45,2025-07-01,2030-06-30,Not due
+C007,Customer G,Textiles,20260820,2026-08-20,Approved,F701,Revolving credit facility,Revolving,Yes,USD,5000000,0.5,Senior,0.45,2025-07-01,2029-06-30,Not due
+C007,Customer G,Textiles,20260820,2026-08-20,Approved,F702,Term loan (machinery),Term,Yes,USD,2000000,0.0,Senior,0.45,2025-07-01,2030-06-30,Not due

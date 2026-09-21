@@ -180,7 +180,7 @@ not let any of them silently affect a number:
 - Use only the values in the three tables. If something needed is missing, write
   "not provided" and continue. Never estimate a missing value.
 - No exchange rates are provided. Do not convert currencies and do not add
-  amounts in different currencies together. Report non-GBP facilities separately
+  amounts in different currencies together. Report non-USD facilities separately
   and state that the rate is not provided.
 - Show the arithmetic for every derived figure before using it in the narrative.
 - Reconcile totals: the sum of facility-level figures must equal the customer
