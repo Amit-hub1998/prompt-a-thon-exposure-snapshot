@@ -10,9 +10,8 @@ They will read the first page and nothing else. Lead with the answer. Put every
 calculation in an appendix at the end.
 
 Work only from the three attached tables. Read every row. Do not sample or
-truncate. Before anything else, state the row count you read from each table.
-Expected: facility 28, utilisation 113, collateral 18. If a count differs, say
-which and stop.
+truncate. In the appendix, state the row count you read from each table. Do not
+stop or re-read on account of the counts; just report them.
 
 ## Scope
 
@@ -113,27 +112,75 @@ monitoring, N are operating normally.
 
 ### 2. Utilisation trend
 
-A fixed-width code block, one line per customer, showing customer-level
-utilisation percentage across the twelve month-ends Oct-2025 to Sep-2026. Build
-each line from the block characters ▁▂▃▄▅▆▇█, scaled so 0% is ▁ and 100% or above
-is █. Use a space where a month has no data. Follow each line with the first and
-last utilisation percentage and a direction arrow: ▲ deteriorating, ▼ improving,
-▬ flat.
+Two code blocks, in this order. Customer utilisation for a month is that
+customer's total utilised divided by total limit that month, using the limit in
+force in that month.
+
+**2a. Where every customer stands now.** One gauge bar per customer, sorted by
+latest utilisation descending. Twenty-four characters wide, so each character is
+roughly 4 percentage points. Fill with █ up to the latest utilisation and pad the
+rest with ░. Cap the bar at 24 characters but print the true percentage, which may
+exceed 100%.
 
 ```
-C001  ▃▃▄▃▄▄▄▄▄▅▆█   60% → 95%   ▲ deteriorating
-C005  █▇▇ ▆▆▅▅▄▄▃▃   83% → 50%   ▼ improving
+                     0%        50%      85%  100%
+                     |---------|--------|----|
+C003 Meridian        ████████████████████████  105%  🔴  over limit
+C001 Northbridge     ███████████████████████░   95%  🔴
+C002 Calder          ████████████████████░░░░   83%  🟠
+C007 Pelham          ███████████████████░░░░░   78%  🟠
+C006 Brackwell       ██████████████████░░░░░░   74%  🟢
+C005 Halden          ████████████░░░░░░░░░░░░   50%  🟢
 ```
 
-Customer utilisation is total utilised divided by total limit for that customer
-that month, using the limit in force in that month. Below the block, add two or
-three lines naming what drove the biggest movements, separating extra drawing from
-extra headroom granted where a limit changed.
+Align the header ticks so the 50%, 85% and 100% marks sit above the correct
+character positions. After the bar, print the true percentage, the RAG emoji, and
+at most three words naming the reason where the status is not Green.
+
+**2b. How each customer got there.** One sparkline per customer across the last
+twelve month-ends, Oct-2025 to Sep-2026, in the same order as 2a.
+
+```
+C003 Meridian                 ▇▇█  n/a       ▲ +15pp
+C001 Northbridge  ▃▃▄▃▄▄▄▄▄▄▄█   60% → 95%   ▲ +35pp
+C002 Calder       ▆▆▆▆▆▆▇▇▇▇▇▇   75% → 83%   ▲ +8pp
+C007 Pelham       ▄▄▄▄▄▄▄▄▄▄▄▇   50% → 78%   ▲ +28pp
+C006 Brackwell    ▆▆▆▆▆▆▆▆▆▆▆▆   76% → 74%   ▬ −2pp
+C005 Halden       ██·▇▇▆▆▅▅▄▄▄   83% → 50%   ▼ −33pp
+```
+
+Rules for 2b:
+
+- One character per month from ▁▂▃▄▅▆▇█, in bands of roughly 12 percentage points,
+  so ▁ is 0–12% and █ is 88% or above.
+- Use `·` for a month with no data, and leave the position blank where the
+  customer did not exist yet.
+- After the bars: first and last utilisation, then the direction arrow and the
+  12-month change in percentage points. Where there is less than 12 months of
+  history, print `n/a` for the start figure rather than computing one.
+- ▲ deteriorating, ▼ improving, ▬ flat within 5 percentage points.
+
+Print this one-line legend under 2b, and nothing else:
+
+```
+▁ 0-12%  ▂ 13-25%  ▃ 26-37%  ▄ 38-50%  ▅ 51-62%  ▆ 63-75%  ▇ 76-87%  █ 88%+   · no data
+```
+
+Then three to five bullets, one line each, naming what drove the largest
+movements. Where a limit changed in the same period, split the movement into extra
+drawing and extra headroom granted.
 
 ### 3. Watchlist
 
-Only Red and Amber customers, worst first. Two to four lines each: what fired, the
-numbers behind it, and the action warranted. No tables.
+Only Red and Amber customers, worst first. For each, a bold heading with the
+customer, its status and its loss severity, then two to four bullets, **one line
+each**:
+
+- one bullet per rule that fired, giving the facility, the triggering numbers and
+  the reason in the same line
+- one final bullet starting **Action:** saying what should happen and by when
+
+No paragraphs in this section.
 
 ### 4. Operating normally
 
@@ -150,21 +197,32 @@ Give any facility already past its maturity date with a balance outstanding its 
 
 ### 6. So what
 
-At most 200 words, prose, no bullets. Cover refinancing risk, liquidity and
-recovery. Name the two or three customers that most need attention and say what
-action is warranted. Rank by loss severity, not flag count, and where the two
-disagree, say so in the final line.
+At most 150 words. Open with one sentence stating the single most important thing
+in the pack. Then four bullets, one line each:
+
+- **Refinancing:** what falls due inside 90 days and whether renewals are on track
+- **Liquidity:** where headroom is nearly exhausted
+- **Recovery:** where loss severity is concentrated and why
+- **Priority:** the two or three customers to act on first
+
+Close with one line ranking by loss severity rather than flag count, and say where
+the two disagree.
 
 ### 7. Data quality issues
 
-Separate from the flags, and never allowed to silently change a number: balances
-after maturity, missing months in a series, collateral with no valuation date,
-valuations more than 24 months old, non-GBP facilities, any other inconsistency.
+A table, never prose, and never allowed to silently change a number:
+
+| Issue | Where | What it affects |
+
+Cover at least: balances after maturity, missing months in a utilisation series,
+collateral with no valuation date, valuations more than 24 months before the
+snapshot date, non-GBP facilities, and any other inconsistency you find.
 
 ### 8. Appendix — workings
 
 Everything an auditor would need, and nothing a risk partner reads:
 
+- Rows read from each table.
 - Current view resolution: the proposal chosen per customer, and which were
   excluded and why.
 - Facility table: limit, utilised, utilisation %, EAD with the CCF applied,
@@ -180,9 +238,9 @@ Everything an auditor would need, and nothing a risk partner reads:
 1. Attach the three CSVs. If only Excel is accepted, attach
    `credit_exposure_inputs_raw.xlsx`, whose sheets carry the same names.
 2. Send the prompt above.
-3. Check the row counts first: facility 28, utilisation 113, collateral 18. If
-   they are wrong, nothing downstream is trustworthy.
-4. If the output stops early, ask for the remaining sections by number.
+3. If the output stops early, ask for the remaining sections by number.
+4. Sanity-check the row counts reported in the appendix: facility 36,
+   utilisation 218, collateral 22.
 
 ## What to check in the output
 
@@ -194,6 +252,12 @@ must be called unsecured rather than coverage breaches.
 
 ## Version history
 
+- **v4** — trend split into two blocks: gauge bars showing where every customer
+  stands now, then sparklines showing how they got there. The month-axis header
+  was dropped; it carried little information and cluttered the block.
+- **v3** — removed the row-count hard stop that caused the model to loop. Trend
+  block gained a month axis, a scale legend, and 12/6/3-month deltas. Watchlist,
+  so-what and data quality converted from prose to one-line bullets and a table.
 - **v2** — portfolio-first. Sections reordered so the answer leads and all
   workings moved to an appendix. Added RAG status per customer with an inline
   legend, the sparkline trend block, watchlist and operating-normally split, and
